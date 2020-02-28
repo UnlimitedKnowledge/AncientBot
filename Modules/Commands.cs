@@ -1007,7 +1007,7 @@ namespace AncientBot.Modules
                 var embed3 = new EmbedBuilder();
                 embed3.WithTitle("Report");
                 embed3.WithColor(255, 0, 0);
-                embed3.AddField("Report by:", user);
+                embed3.AddField("Report by:", user.Mention);
                 embed3.AddField("User ID:", user.Id);
                 embed3.AddField("Report:", reason);
                 embed3.WithCurrentTimestamp();
@@ -1216,7 +1216,13 @@ namespace AncientBot.Modules
 
         {
 
-            if (link != null)
+            var user = Context.User as SocketGuildUser;
+            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Statesman");
+
+
+            if (user.Roles.Contains(role))
+
+                if (link != null)
             {
                 var embed2 = new EmbedBuilder();
                 embed2.WithTitle("Exploiter Logger");
@@ -1374,7 +1380,7 @@ namespace AncientBot.Modules
                 var embed3 = new EmbedBuilder();
                 embed3.WithTitle("Suggestion");
                 embed3.WithColor(255, 0, 0);
-                embed3.AddField("Suggestion by:", user);
+                embed3.AddField("Suggestion by:", user.Mention);
                 embed3.AddField("User ID:", user.Id);
                 embed3.AddField("Suggestion:", reason);
                 embed3.WithCurrentTimestamp();
