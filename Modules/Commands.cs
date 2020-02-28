@@ -1040,7 +1040,7 @@ namespace AncientBot.Modules
                     embed2.WithColor(255, 0, 0);
                     embed2.WithDescription("PR logged successfully.");
                     embed2.WithCurrentTimestamp();
-                    
+                    embed2.WithThumbnailUrl(Context.Guild.IconUrl);
                     embed2.WithFooter("Built by Bay#6969", null);
 
                     await Context.Channel.SendMessageAsync("", false, embed2.Build());
@@ -1055,7 +1055,6 @@ namespace AncientBot.Modules
                     embed3.AddField("Losing Commander:", losing);
                     embed3.AddField("Score:", score);
                     embed3.AddField("Posted by:", user + " (" + user.Id + ")");
-
                     embed3.WithCurrentTimestamp();
                     embed3.WithThumbnailUrl(Context.Guild.IconUrl);
                     embed3.WithFooter("Built by Bay#6969", null);
