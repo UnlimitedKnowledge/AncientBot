@@ -1465,6 +1465,10 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+                Console.WriteLine($"{DateTime.Now}: Shutting down...");
+
+                System.Threading.Thread.Sleep(1500);
+
 
                 System.Environment.Exit(0);
             }
@@ -1501,6 +1505,8 @@ namespace AncientBot.Modules
             DataStore.AddPairToStorage("Count" + DataStore.GetPairsCount(), "TheCount" + DataStore.GetPairsCount());
             await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+            Console.WriteLine($"{DateTime.Now}: Data has " + DataStore.GetPairsCount() + " pairs.");
+
         }
 
 
@@ -1515,6 +1521,10 @@ namespace AncientBot.Modules
             {
                 File.Delete(filePath);
             }
+
+            Console.WriteLine($"{DateTime.Now}: Clearing data...");
+
+            System.Threading.Thread.Sleep(1500);
 
             System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0], Environment.GetCommandLineArgs().Length > 1 ? string.Join(" ", Environment.GetCommandLineArgs().Skip(1)) : null);
 
@@ -1542,6 +1552,9 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+                Console.WriteLine($"{DateTime.Now}: Restarting...");
+
+                System.Threading.Thread.Sleep(1500);
 
                 System.Diagnostics.Process.Start(Environment.GetCommandLineArgs()[0], Environment.GetCommandLineArgs().Length > 1 ? string.Join(" ", Environment.GetCommandLineArgs().Skip(1)) : null);
 
@@ -1608,6 +1621,8 @@ namespace AncientBot.Modules
 
             await Context.Channel.SendMessageAsync("", false, embed2.Build());
 
+            Console.WriteLine($"{DateTime.Now}: Annoy command has been used on " + user.Username + ".");
+
         }
 
         [Command("setavatar")]
@@ -1636,6 +1651,8 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+                Console.WriteLine($"{DateTime.Now}: Profile picture has been set successfully.");
+
             }
             catch (Exception)
             {
@@ -1648,6 +1665,8 @@ namespace AncientBot.Modules
                 embed.WithFooter("Built by Bay#6969", null);
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+                Console.WriteLine($"{DateTime.Now}: Profile picture has failed to set.");
             }
         }
 
@@ -1671,6 +1690,8 @@ namespace AncientBot.Modules
             embed.WithColor(new Color(0, 255, 0));
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            Console.WriteLine($"{DateTime.Now}: " + target.Username + " has been blacklisted from using commands.");
         }
 
         [Command("unblacklist")]
@@ -1693,6 +1714,8 @@ namespace AncientBot.Modules
             embed.WithColor(new Color(0, 255, 0));
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            Console.WriteLine($"{DateTime.Now}: " + target.Username + " has been unblacklisted from using commands.");
         }
 
         // --------------------------------OWNER COMMANDS----------------------------------------
