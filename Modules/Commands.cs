@@ -1651,7 +1651,7 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
-                Console.WriteLine($"{DateTime.Now}: Profile picture has been set.");
+                Console.WriteLine($"{DateTime.Now}: Profile picture has been set successfully.");
 
             }
             catch (Exception)
