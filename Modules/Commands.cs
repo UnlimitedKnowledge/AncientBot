@@ -1693,6 +1693,8 @@ namespace AncientBot.Modules
             embed.WithColor(new Color(0, 255, 0));
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            Console.WriteLine($"{DateTime.Now}: " + target.Username + " has been unblacklisted from using commands.");
         }
 
         // --------------------------------OWNER COMMANDS----------------------------------------
