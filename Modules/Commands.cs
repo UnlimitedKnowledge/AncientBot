@@ -14,6 +14,7 @@ using NReco.ImageGenerator;
 using AncientBot.Core.UserProfiles;
 using AncientBot;
 using AncientBot.Core;
+using AncientBot.Modules;
 using ImageFormat = Discord.ImageFormat;
 
 namespace AncientBot.Modules
@@ -1211,65 +1212,81 @@ namespace AncientBot.Modules
 
 
         [Command("addexploiter", RunMode = RunMode.Async)]
-        [RequireUserPermission(GuildPermission.Administrator)]
         public async Task exploiteradd(string discord = null, string roblox = null, string link = null, [Remainder]string proof = null)
 
         {
 
             var user = Context.User as SocketGuildUser;
-            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Statesman");
+            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Community Anti-Exploiter Team");
 
 
             if (user.Roles.Contains(role))
+            {
+
+
 
                 if (link != null)
-            {
-                var embed2 = new EmbedBuilder();
-                embed2.WithTitle("Exploiter Logger");
-                embed2.WithColor(255, 0, 0);
-                embed2.WithDescription("Exploiter logged successfully.");
-                embed2.WithCurrentTimestamp();
-                embed2.WithThumbnailUrl(Context.Guild.IconUrl);
-                embed2.WithFooter("Built by Bay#6969", null);
+                {
+                    var embed2 = new EmbedBuilder();
+                    embed2.WithTitle("Exploiter Logger");
+                    embed2.WithColor(255, 0, 0);
+                    embed2.WithDescription("Exploiter logged successfully.");
+                    embed2.WithCurrentTimestamp();
+                    embed2.WithThumbnailUrl(Context.Guild.IconUrl);
+                    embed2.WithFooter("Built by Bay#6969", null);
 
-                await Context.Channel.SendMessageAsync("", false, embed2.Build());
-
-
-                var embed3 = new EmbedBuilder();
-                embed3.WithTitle("Exploiter " + roblox);
-                embed3.WithColor(255, 0, 0);
-                embed3.AddField("Discord User:", discord);
-                embed3.AddField("Roblox User:", roblox);
-                embed3.AddField("Profile Link:", link);
-                embed3.AddField("Proof:", proof);
-                embed3.AddField("Posted by:", Context.User + " (" + Context.User.Id + ")");
-                embed3.WithCurrentTimestamp();
-                embed3.WithThumbnailUrl(Context.Guild.IconUrl);
-                embed3.WithFooter("Built by Bay#6969", null);
+                    await Context.Channel.SendMessageAsync("", false, embed2.Build());
 
 
-                await Context.Guild.GetTextChannel(682786611758759936).SendMessageAsync("", false, embed3.Build());
+                    var embed3 = new EmbedBuilder();
+                    embed3.WithTitle("Exploiter " + roblox);
+                    embed3.WithColor(255, 0, 0);
+                    embed3.AddField("Discord User:", discord);
+                    embed3.AddField("Roblox User:", roblox);
+                    embed3.AddField("Profile Link:", link);
+                    embed3.AddField("Proof:", proof);
+                    embed3.AddField("Posted by:", Context.User + " (" + Context.User.Id + ")");
+                    embed3.WithCurrentTimestamp();
+                    embed3.WithThumbnailUrl(Context.Guild.IconUrl);
+                    embed3.WithFooter("Built by Bay#6969", null);
+
+
+                    await Context.Guild.GetTextChannel(682786611758759936).SendMessageAsync("", false, embed3.Build());
+                }
+
+                else
+                {
+                    var embed = new EmbedBuilder();
+                    embed.WithTitle("Exploiter Logger Help");
+                    embed.WithColor(255, 0, 0);
+                    embed.WithDescription("To log an exploiter, provide the following arguments in order of listed.");
+                    embed.AddField("Discord Username", "Provide their discord username, either through an @mention or by typing it.");
+                    embed.AddField("Roblox Username", "Provide the username of their Roblox account.");
+                    embed.AddField("Roblox Profile Link", "Provide a link to their profile.");
+                    embed.AddField("Proof", "Provide a link of proof that they exploited.");
+                    embed.AddField("Example", "$addexploiter sahil#5888 AnaxandridesII https://www.roblox.com/users/122353921/profile https://gyazo.com/0a655eb49d2823c6e9f2705987674edc");
+                    embed.WithCurrentTimestamp();
+                    embed.WithThumbnailUrl(Context.Guild.IconUrl);
+                    embed.WithFooter("Built by Bay#6969", null);
+
+                    await Context.Channel.SendMessageAsync("", false, embed.Build());
+                }
+
+
             }
 
             else
             {
                 var embed = new EmbedBuilder();
-                embed.WithTitle("Exploiter Logger Help");
+                embed.WithTitle("Exploiter Log Failed");
                 embed.WithColor(255, 0, 0);
-                embed.WithDescription("To log an exploiter, provide the following arguments in order of listed.");
-                embed.AddField("Discord Username", "Provide their discord username, either through an @mention or by typing it.");
-                embed.AddField("Roblox Username", "Provide the username of their Roblox account.");
-                embed.AddField("Roblox Profile Link", "Provide a link to their profile.");
-                embed.AddField("Proof", "Provide a link of proof that they exploited.");
-                embed.AddField("Example", "$addexploiter sahil#5888 AnaxandridesII https://www.roblox.com/users/122353921/profile https://gyazo.com/0a655eb49d2823c6e9f2705987674edc");
+                embed.WithDescription("You must be part of the Anti-Exploiter Team to use this command.");
                 embed.WithCurrentTimestamp();
                 embed.WithThumbnailUrl(Context.Guild.IconUrl);
                 embed.WithFooter("Built by Bay#6969", null);
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
-
-
 
         }
 
@@ -1440,6 +1457,60 @@ namespace AncientBot.Modules
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+
+        }
+
+        [Command("testlogpr", RunMode = RunMode.Async)]
+        [RequireOwner]
+        public async Task testprlog()
+        {
+
+            var account = UserAccounts.GetAccount(Context.User);
+
+            var user = Context.User as SocketGuildUser;
+            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Statesman");
+            var role2 = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Minor Sovereign");
+            var role3 = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Major Sovereign");
+
+            if (user.Roles.Contains(role))
+            {
+                var embed = new EmbedBuilder();
+                embed.WithTitle("PR Log");
+                embed.WithDescription("What is the name of the winning faction?");
+                embed.WithThumbnailUrl(Context.Guild.IconUrl);
+                embed.WithColor(new Color(0, 255, 0));
+
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+
+
+                var embed2 = new EmbedBuilder();
+                embed2.WithTitle("PR Log");
+                embed2.WithDescription("What is the name of the losing faction?" + "Winner = ");
+                embed2.WithThumbnailUrl(Context.Guild.IconUrl);
+                embed2.WithColor(new Color(0, 255, 0));
+
+                await Context.Channel.SendMessageAsync("", false, embed2.Build());
+
+
+
+            }
+
+            else if (user.Roles.Contains(role2))
+            {
+
+
+            }
+
+            else if (user.Roles.Contains(role3))
+            {
+
+            }
+
+            else;
+            {
+
+            }
 
         }
 
