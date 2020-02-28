@@ -1,0 +1,5 @@
+{
+	"TEST":"Hello World!",
+	"WELCOME_&NAME": "Hello, {0}. I am LFBot! How can I help you today?",
+	"SECRET": "The secret is `123ABC`."
+}
