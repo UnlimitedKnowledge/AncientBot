@@ -39,6 +39,7 @@ namespace AncientBot
             await _handler.InitializeAsync(_client);
             ConsoleInput();
             await Task.Delay(-1);
+
         }
 
         private async Task ConsoleInput()
