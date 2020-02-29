@@ -159,7 +159,17 @@ namespace AncientBot.Modules
                 var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
                 target = mentionedUser ?? Context.User;
 
-                await ReplyAsync(target.GetAvatarUrl(ImageFormat.Auto));
+
+
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Avatar");
+                embed.WithColor(0, 0, 255);
+                embed.WithCurrentTimestamp();
+                embed.WithAuthor(target);
+                embed.WithImageUrl(target.GetAvatarUrl(ImageFormat.Auto));
+                embed.WithFooter("Built by Bay#6969", null);
+
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
         }
 
@@ -259,7 +269,45 @@ namespace AncientBot.Modules
                 embed.AddField("blacklist", "Blacklists a user from using commands.");
                 embed.AddField("unblacklist", "Revokes the blacklist.");
                 embed.AddField("setgame", "Sets the game status of the bot.");
+                embed.AddField("setlistening", "Sets the listening status of the bot.");
                 embed.AddField("setavatar", "Changes the bot's profile picture.");
+                embed.AddField("annoy", "Used to annoy a user when someone pisses Bay off.");
+                embed.WithFooter("Built by Bay#6969", null);
+
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
+            }
+
+            else
+            {
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Command Failed");
+                embed.WithColor(0, 255, 0);
+                embed.WithCurrentTimestamp();
+                embed.WithDescription("You are not the owner of the bot.");
+                embed.WithFooter("Built by Bay#6969", null);
+
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
+            }
+
+        }
+
+        [Command("ownerbypass")]
+        public async Task ownerbypasscmds()
+        {
+
+            if (Context.User.Id == 209187780079648778)
+            {
+                var embed = new EmbedBuilder();
+                embed.WithTitle("Owner Bypass Help");
+                embed.WithColor(0, 255, 0);
+                embed.WithCurrentTimestamp();
+                embed.WithAuthor(Context.User);
+                embed.WithThumbnailUrl(Context.User.GetAvatarUrl(ImageFormat.Auto));
+                embed.WithDescription("Only to be used for testing and when needed.");
+                embed.AddField("bypassban", "Bans a user while bypassing server permissions to use the ban command.");
+                embed.AddField("bypasskick", "Kicks a user while bypassing server permissions to use the kick command.");
+                embed.AddField("bypassclearwarn", "Clears the warnings of the user without needing the permission.");
+                embed.AddField("bypassunban", "Unbans a user without needing the permissions to do so.");
                 embed.WithFooter("Built by Bay#6969", null);
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
@@ -600,7 +648,7 @@ namespace AncientBot.Modules
             UserAccounts.SaveAccounts();
 
             var embed = new EmbedBuilder();
-            embed.WithTitle(target + "'s warnings have been cleared");
+            embed.WithTitle(target.Username + "'s warnings have been cleared");
             embed.WithDescription("**Cleared by: **" + Context.User + ".");
             embed.WithColor(0, 255, 0);
             embed.WithCurrentTimestamp();
@@ -863,7 +911,7 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
-            
+
             else
             {
                 await Context.Guild.GetUser(username.Id).ModifyAsync(x => x.Nickname = name);
@@ -1407,6 +1455,8 @@ namespace AncientBot.Modules
 
 
                 await Context.Guild.GetTextChannel(682787747441934354).SendMessageAsync("", false, embed3.Build());
+
+
             }
         }
 
@@ -1431,6 +1481,8 @@ namespace AncientBot.Modules
             embed.WithColor(new Color(0, 255, 0));
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            Console.WriteLine($"{DateTime.Now}:" + target.Username + " has been blacklisted from using suggest.");
 
 
         }
@@ -1457,6 +1509,8 @@ namespace AncientBot.Modules
 
             await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+            Console.WriteLine($"{DateTime.Now}:" + target.Username + " has been unblacklisted from using suggest.");
+
 
         }
 
@@ -1482,7 +1536,7 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
-               
+
 
 
                 var embed2 = new EmbedBuilder();
@@ -1553,7 +1607,7 @@ namespace AncientBot.Modules
         }
 
 
-        [Command("SetGame")]
+        [Command("setgame")]
         [Summary("Sets a 'Game'for the bot :video_game: (Only Developers can use this command.)")]
         [RequireOwner]
         public async Task setgame([Remainder]string game)
@@ -1562,6 +1616,18 @@ namespace AncientBot.Modules
             await Context.Channel.SendMessageAsync($"Successfully set the game to '**{game}**'");
             Console.WriteLine($"{DateTime.Now}: Game was changed to {game}");
 
+        }
+
+        [Command("setlistening")]
+        [RequireOwner()]
+        public async Task listening([Remainder]string listening)
+        {
+
+            await Context.Client.SetGameAsync(listening, null, ActivityType.Listening);
+
+
+            await Context.Channel.SendMessageAsync($"Successfully began listening to '**{listening}**'");
+            Console.WriteLine($"{DateTime.Now}: Listen was changed to {listening}");
         }
 
         [Command("data")]
@@ -1797,6 +1863,114 @@ namespace AncientBot.Modules
         }
 
         // --------------------------------OWNER COMMANDS----------------------------------------
+
+        // --------------------------------OWNER BYPASS----------------------------------------
+
+        [Command("bypassban")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        public async Task BypassBanUser(IGuildUser user, [Remainder]string reason = "No reason provided.")
+        {
+
+            var account = UserAccounts.GetAccount(Context.User);
+
+
+            var embed = new EmbedBuilder();
+            embed.WithTitle(user + " has been banned by " + Context.User + ".");
+            embed.WithColor(0, 255, 0);
+            embed.WithDescription("Banned by bot owner");
+            embed.WithCurrentTimestamp();
+            embed.WithThumbnailUrl(user.GetAvatarUrl(ImageFormat.Auto));
+            embed.WithFooter("Built by Bay#6969", null);
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            var dmChannel = await user.GetOrCreateDMChannelAsync();
+            await dmChannel.SendMessageAsync("You have been banned from " + Context.Guild.Name + "\n **Reason: ** " + reason + "\n *Moderator: **" + Context.User);
+
+            await user.Guild.AddBanAsync(user, 7, reason);
+
+        }
+
+        [Command("bypasskick")]
+        [RequireOwner]
+        public async Task BypassKickUser(IGuildUser user, [Remainder]string reason = "No reason provided.")
+        {
+            var account = UserAccounts.GetAccount(Context.User);
+
+
+            var embed = new EmbedBuilder();
+            embed.WithTitle(user + " has been kicked by " + Context.User + ".");
+            embed.WithColor(0, 255, 0);
+            embed.WithDescription("Kicked by bot owner");
+            embed.WithCurrentTimestamp();
+            embed.WithThumbnailUrl(user.GetAvatarUrl(ImageFormat.Auto));
+            embed.WithFooter("Built by Bay#6969", null);
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+            var dmChannel = await user.GetOrCreateDMChannelAsync();
+            await dmChannel.SendMessageAsync("You have been kicked from " + Context.Guild.Name + "\n **Reason: " + reason + "**");
+            await user.KickAsync(reason);
+
+        }
+
+        [Command("bypassclearwarn")]
+        [RequireOwner]
+        public async Task bypasswarnclear([Remainder]string arg = "")
+        {
+
+            SocketUser target = null;
+            var mentionedUser = Context.Message.MentionedUsers.FirstOrDefault();
+            target = mentionedUser ?? Context.User;
+
+            var userAccount = UserAccounts.GetAccount((SocketUser)target);
+            userAccount.NumberOfWarnings = 0;
+
+            var account = UserAccounts.GetAccount(target);
+            account.Reason = "N/A";
+            account.Reason2 = "N/A";
+            account.Reason3 = "N/A";
+            account.Newest = "N/A";
+            UserAccounts.SaveAccounts();
+
+            var embed = new EmbedBuilder();
+            embed.WithTitle(target.Username + "'s warnings have been cleared");
+            embed.WithDescription("Cleared by bot owner.");
+            embed.WithColor(0, 255, 0);
+            embed.WithCurrentTimestamp();
+            embed.WithThumbnailUrl(target.GetAvatarUrl(ImageFormat.Auto));
+            embed.WithFooter("Built by Bay#6969", null);
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+        }
+
+        [Command("bypassunban")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        [RequireOwner]
+        public async Task BypassUnBanUser(ulong userId)
+        {
+
+
+
+                var embed = new EmbedBuilder();
+                embed.WithTitle("(" + userId + ") has been unbanned");
+                embed.WithColor(0, 255, 0);
+                embed.WithDescription("Unbanned by bot owner.");
+                embed.WithCurrentTimestamp();
+                embed.WithFooter("Built by Bay#6969", null);
+
+                await Context.Channel.SendMessageAsync("", false, embed.Build());
+
+                await Context.Guild.RemoveBanAsync(userId);
+            
+
+
+
+        }
+
+        // --------------------------------OWNER BYPASS----------------------------------------
     }
+
+
 }
 
