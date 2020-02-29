@@ -1482,6 +1482,7 @@ namespace AncientBot.Modules
 
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
 
+               
 
 
                 var embed2 = new EmbedBuilder();
